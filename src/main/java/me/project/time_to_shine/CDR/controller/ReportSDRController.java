@@ -29,4 +29,10 @@ public class ReportSDRController {
     public ResponseEntity<ReportSDR> getSDR(@PathVariable int id) {
         return ResponseEntity.ok(sdrService.getReport(id));
     }
+
+    @PostMapping("generate_reports")
+    public ResponseEntity<List<ReportSDR>> createSDRs() {
+
+        return null;
+    }
 }

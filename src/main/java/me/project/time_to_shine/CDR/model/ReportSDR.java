@@ -2,6 +2,7 @@ package me.project.time_to_shine.CDR.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -22,5 +23,6 @@ public class ReportSDR {
 
     private LocalDateTime beginningDate;
     private LocalDateTime endingDate;
+
 
 }
