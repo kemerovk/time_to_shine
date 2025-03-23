@@ -32,7 +32,6 @@ public class ReportSDRController {
 
     @PostMapping("generate_reports")
     public ResponseEntity<List<ReportSDR>> createSDRs() {
-
-        return null;
+        return ResponseEntity.ok().body(sdrService.generateReports());
     }
 }

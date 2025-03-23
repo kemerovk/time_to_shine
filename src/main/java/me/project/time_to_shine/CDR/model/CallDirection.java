@@ -13,4 +13,7 @@ public enum CallDirection {
         this.code = code;
     }
 
+    public static CallDirection codeToString(String code){
+        return code.equals("01")? OUTGOING: INCOMING;
+    }
 }
