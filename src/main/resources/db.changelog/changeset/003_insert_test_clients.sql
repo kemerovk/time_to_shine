@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset tsoyka:3 runOnChange:true
+--changeset tsoyka:3 runAlways:true
 
 insert into client(number)
     values ('72343452341'),

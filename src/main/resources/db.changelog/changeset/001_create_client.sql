@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset tsoyka:1 runOnChange:true
+--changeset tsoyka:1 runAlways:true
 
 drop table if exists report_sdr;
 drop table if exists client;

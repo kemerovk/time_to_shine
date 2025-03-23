@@ -43,8 +43,11 @@ public class SDRServiceImpl implements SDRService {
 
     @Override
     public int generateReports(){
+
+        if (!repo.findAll().isEmpty()) return 0;
+
         Random random = new Random();
-        int numOfReports = random.nextInt(10000) + 1;
+        int numOfReports = random.nextInt(1000) + 1;
 
         List<ReportSDR> reports = new ArrayList<>();
         List<Client> clients = clientRepo.findAll();

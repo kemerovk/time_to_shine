@@ -44,7 +44,7 @@ public class ReportUDRController {
             if (month != 0 &&
                     (clientInterval.getStartTime().
                             isAfter(LocalDateTime.of(month == 12 ? 2026 : 2025, month == 12 ? 1 : month + 1, 1, 0, 0, 0))
-                            &&
+                            ||
                             clientInterval.getEndTime().
                                     isBefore(LocalDateTime.of(2025, month, 1, 0, 0, 0)))) continue;
 
