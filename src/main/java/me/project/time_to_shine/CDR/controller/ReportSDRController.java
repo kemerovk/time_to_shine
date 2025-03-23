@@ -1,6 +1,8 @@
 package me.project.time_to_shine.CDR.controller;
 
+import jakarta.annotation.PostConstruct;
 import me.project.time_to_shine.CDR.model.ReportSDR;
+import me.project.time_to_shine.CDR.model.ReportUDR;
 import me.project.time_to_shine.CDR.service.SDRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,6 @@ public class ReportSDRController {
     @Autowired
     private SDRService sdrService;
 
-    @GetMapping
-    public String hello() {
-        return "Hello World";
-    }
 
     @GetMapping("reports")
     public ResponseEntity<List<ReportSDR>> getReports() {
@@ -30,8 +28,9 @@ public class ReportSDRController {
         return ResponseEntity.ok(sdrService.getReport(id));
     }
 
-    @PostMapping("generate_reports")
-    public ResponseEntity<List<ReportSDR>> createSDRs() {
-        return ResponseEntity.ok().body(sdrService.generateReports());
+    @PostConstruct
+    public void generateReport() {
+        sdrService.generateReports();
     }
+
 }

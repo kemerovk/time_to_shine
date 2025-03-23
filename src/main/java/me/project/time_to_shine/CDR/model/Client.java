@@ -16,9 +16,7 @@ public class Client {
     @Column(name = "client_id")
     private int id;
 
-
     private String number;
-
 
     @Transient
     private List<ClientInterval> intervals = new ArrayList<>();

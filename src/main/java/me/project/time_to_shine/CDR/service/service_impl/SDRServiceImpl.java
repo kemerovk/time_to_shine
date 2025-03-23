@@ -40,7 +40,7 @@ public class SDRServiceImpl implements SDRService {
     public ReportSDR addReport(ReportSDR report) {
         return repo.save(report);
     }
-// написать проверку границ даты
+
     @Override
     public List<ReportSDR> generateReports(){
         Random random = new Random();
@@ -65,6 +65,7 @@ public class SDRServiceImpl implements SDRService {
             Client firstClient = clients.get(firstId);
             Client secondClient = clients.get(secondId);
 
+            System.out.println(numOfReports);
             report.setCallDirection(random.nextDouble() <= 0.5? CallDirection.INCOMING: CallDirection.OUTGOING);
             report.setCallerNumber(firstClient.getNumber());
             report.setReceiveNumber(secondClient.getNumber());
@@ -79,8 +80,15 @@ public class SDRServiceImpl implements SDRService {
                                          plusMinutes(random.nextInt(60)).
                                          plusSeconds(random.nextInt(60));
 
+            LocalDateTime secondDate = firstDate.plus(duration);
+
+            if (!(isDateValid(firstDate, secondDate, firstClient) &&
+                isDateValid(firstDate, secondDate, secondClient))) continue;
             report.setBeginningDate(firstDate);
             report.setEndingDate(firstDate.plus(duration));
+
+            firstClient.getIntervals().add(new ClientInterval(CallDirection.OUTGOING, firstDate, secondDate));
+            secondClient.getIntervals().add(new ClientInterval(CallDirection.INCOMING, firstDate, secondDate));
 
             reports.add(report);
         }
@@ -90,9 +98,34 @@ public class SDRServiceImpl implements SDRService {
         return reports;
     }
 
+    private boolean isDateValid(LocalDateTime beginToCheck, LocalDateTime endToCheck, Client first) {
+        long count = first.getIntervals().
+                stream().
+                filter(x -> beginToCheck.isAfter(x.getEndTime()) || endToCheck.isBefore(x.getStartTime())).
+                count();
+
+        return first.getIntervals().size() == count;
+    }
+
     @Override
     public void deleteReport(int id) {
         ReportSDR report = repo.findById(id).get();
         repo.delete(report);
+    }
+
+    public List<ClientInterval> getListOfClientIntervalsByClientId(int clientId) {
+        Client client = clientRepo.findById(clientId).get();
+        List<ClientInterval> clientIntervals = new ArrayList<>();
+        List<ReportSDR> reports = repo.findAll();
+
+        for (ReportSDR report : reports) {
+            if (report.getCallerNumber().equals(client.getNumber()) || report.getReceiveNumber().equals(client.getNumber())) {
+                clientIntervals.add(report.getCallerNumber().equals(client.getNumber()) ?
+                        new ClientInterval(CallDirection.OUTGOING, report.getBeginningDate(), report.getEndingDate()):
+                        new ClientInterval(CallDirection.INCOMING, report.getBeginningDate(), report.getEndingDate()));
+            }
+        }
+
+        return clientIntervals;
     }
 }

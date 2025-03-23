@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum CallDirection {
-    OUTGOING("02"),
-    INCOMING("01");
+    OUTGOING("01"),
+    INCOMING("02");
 
     private final String code;
 

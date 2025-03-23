@@ -1,11 +1,8 @@
 package me.project.time_to_shine.CDR.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
