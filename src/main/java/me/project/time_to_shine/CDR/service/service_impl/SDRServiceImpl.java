@@ -42,7 +42,7 @@ public class SDRServiceImpl implements SDRService {
     }
 
     @Override
-    public List<ReportSDR> generateReports(){
+    public int generateReports(){
         Random random = new Random();
         int numOfReports = random.nextInt(10000) + 1;
 
@@ -76,8 +76,8 @@ public class SDRServiceImpl implements SDRService {
                                                       random.nextInt(60),
                                                       random.nextInt(60)));
 
-            Duration duration = Duration.ofHours(random.nextInt(10)).
-                                         plusMinutes(random.nextInt(60)).
+            Duration duration = Duration.ofHours(random.nextInt(1)).
+                                         plusMinutes(random.nextInt(10)).
                                          plusSeconds(random.nextInt(60));
 
             LocalDateTime secondDate = firstDate.plus(duration);
@@ -95,7 +95,7 @@ public class SDRServiceImpl implements SDRService {
 
         reports.sort(Comparator.comparing(ReportSDR::getEndingDate));
         repo.saveAll(reports);
-        return reports;
+        return reports.size();
     }
 
     private boolean isDateValid(LocalDateTime beginToCheck, LocalDateTime endToCheck, Client first) {

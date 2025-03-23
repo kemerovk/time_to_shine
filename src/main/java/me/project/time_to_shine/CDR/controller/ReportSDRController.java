@@ -30,7 +30,7 @@ public class ReportSDRController {
 
     @PostConstruct
     public void generateReport() {
-        sdrService.generateReports();
+        System.out.println(sdrService.generateReports());
     }
 
 }

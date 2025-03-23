@@ -10,5 +10,5 @@ public interface SDRService {
     public ReportSDR getReport(int id);
     public ReportSDR addReport(ReportSDR report);
     public void deleteReport(int id);
-    public List<ReportSDR> generateReports();
+    public int generateReports();
 }
