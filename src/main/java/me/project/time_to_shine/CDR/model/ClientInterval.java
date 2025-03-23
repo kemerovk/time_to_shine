@@ -3,7 +3,6 @@ package me.project.time_to_shine.CDR.model;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 @Data
 public class ClientInterval {
 
