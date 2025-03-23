@@ -10,7 +10,6 @@ public class TimeToShineApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TimeToShineApplication.class, args);
-        new Scanner(System.in).nextLine();
     }
 
 }
