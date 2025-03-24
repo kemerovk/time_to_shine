@@ -14,6 +14,11 @@ public enum CallDirection {
     }
 
     public static CallDirection codeToString(String code){
-        return code.equals("01")? OUTGOING: INCOMING;
+        for (CallDirection direction : CallDirection.values()) {
+            if(direction.code.equals(code)){
+                return direction;
+            }
+        }
+        return null;
     }
 }

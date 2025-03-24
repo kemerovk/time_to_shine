@@ -77,8 +77,6 @@ public class ReportUDRController {
             }
         }
 
-        ReportUDR reportUDR = new ReportUDR(client.getNumber(), totalIncomingTime, totalOutgoingTime);
-
-        return reportUDR;
+        return new ReportUDR(client.getNumber(), totalIncomingTime, totalOutgoingTime);
     }
 }

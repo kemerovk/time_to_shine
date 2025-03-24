@@ -22,7 +22,7 @@ import java.util.*;
 public class SDRServiceImpl implements SDRService {
 
     @Autowired
-    private SDRRepository repo;
+    private SDRRepository sdrRepository;
 
     @Autowired
     private ClientRepository clientRepo;
@@ -34,7 +34,7 @@ public class SDRServiceImpl implements SDRService {
      */
     @Override
     public List<ReportSDR> getReports() {
-        return repo.findAll();
+        return sdrRepository.findAll();
     }
 
     /**
@@ -46,7 +46,7 @@ public class SDRServiceImpl implements SDRService {
      */
     @Override
     public ReportSDR getReport(int id) {
-        Optional<ReportSDR> opt = repo.findById(id);
+        Optional<ReportSDR> opt = sdrRepository.findById(id);
         if (opt.isEmpty()) {
             throw new ReportNotFoundException("не получилось найти отчет с id = " + id);
         }
@@ -61,7 +61,7 @@ public class SDRServiceImpl implements SDRService {
      */
     @Override
     public ReportSDR addReport(ReportSDR report) {
-        return repo.save(report);
+        return sdrRepository.save(report);
     }
 
     /**
@@ -73,7 +73,7 @@ public class SDRServiceImpl implements SDRService {
     @Override
     public int generateReports() {
 
-        if (!repo.findAll().isEmpty()) return 0;
+        if (!sdrRepository.findAll().isEmpty()) return 0;
 
         Random random = new Random();
         int numOfReports = random.nextInt(1000) + 1;
@@ -96,7 +96,6 @@ public class SDRServiceImpl implements SDRService {
             Client firstClient = clients.get(firstId);
             Client secondClient = clients.get(secondId);
 
-            System.out.println(numOfReports);
             report.setCallDirection(random.nextDouble() <= 0.5 ? CallDirection.INCOMING : CallDirection.OUTGOING);
             report.setCallerNumber(firstClient.getNumber());
             report.setReceiveNumber(secondClient.getNumber());
@@ -125,7 +124,7 @@ public class SDRServiceImpl implements SDRService {
         }
 
         reports.sort(Comparator.comparing(ReportSDR::getEndingDate));
-        repo.saveAll(reports);
+        sdrRepository.saveAll(reports);
         return reports.size();
     }
 
@@ -153,8 +152,8 @@ public class SDRServiceImpl implements SDRService {
      */
     @Override
     public void deleteReport(int id) {
-        ReportSDR report = repo.findById(id).get();
-        repo.delete(report);
+        ReportSDR report = sdrRepository.findById(id).get();
+        sdrRepository.delete(report);
     }
 
     /**
@@ -166,7 +165,7 @@ public class SDRServiceImpl implements SDRService {
     public List<ClientInterval> getListOfClientIntervalsByClientId(int clientId) {
         Client client = clientRepo.findById(clientId).get();
         List<ClientInterval> clientIntervals = new ArrayList<>();
-        List<ReportSDR> reports = repo.findAll();
+        List<ReportSDR> reports = sdrRepository.findAll();
 
         for (ReportSDR report : reports) {
             if (report.getCallerNumber().equals(client.getNumber()) || report.getReceiveNumber().equals(client.getNumber())) {

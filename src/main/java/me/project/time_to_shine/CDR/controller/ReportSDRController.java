@@ -46,6 +46,6 @@ public class ReportSDRController {
      */
     @PostConstruct
     public void generateReport() {
-        System.out.println(sdrService.generateReports());
+        sdrService.generateReports();
     }
 }
